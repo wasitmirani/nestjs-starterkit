@@ -4,7 +4,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert 
 } from 'typeorm';
+
+import * as bcrypt from 'bcrypt';
+import { Helpers } from 'src/common/utils/helpers';
 
 @Entity('users')
 export class User {
@@ -93,4 +97,27 @@ export class User {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   phone?: string | null;
+
+ @BeforeInsert()
+  async beforeInsert() {
+    // Generate UUID if not provided
+    if (!this.uuid) {
+      this.uuid = Helpers.generateUUID();
+    }
+
+    // // Generate username if not provided
+    // if (!this.username && this.email) {
+    //   this.username = Helpers.generateUsernameFromEmail(this.email);
+    // }
+
+    // // Hash password if provided and not already hashed
+    // if (this.password && !this.password.startsWith('$2a$')) {
+    //   this.password = await bcrypt.hash(this.password, 12);
+    // }
+  }
+
+
+   async validatePassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
 }

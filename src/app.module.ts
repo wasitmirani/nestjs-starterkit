@@ -3,13 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { AuthModule } from './modules/auth/auth.module';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { ConfigModule } from '@nestjs/config';
 
 dotenv.config();
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // 👈 makes ConfigService available everywhere
+    }),
        TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST || 'localhost',
@@ -26,7 +32,7 @@ dotenv.config();
         migrationsRun: false,
         migrations: [],
     }),
-    UsersModule, OrdersModule],
+    UsersModule, OrdersModule,AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

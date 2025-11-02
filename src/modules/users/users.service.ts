@@ -14,15 +14,16 @@ export class UsersService {
   ) {}
 
   async getUsers(page: number, limit: number, params?: any): Promise<PaginationResult<User>> {
-    const qb = this.userRepo.createQueryBuilder('users').select(['users.id', 'users.uuid','users.name', 'users.email']);
-    if (params?.email) {
-      qb.where('users.email = :email', { email: params.email });
-    }
-    return paginate(qb, { page, limit, baseUrl: '/users' });
+    // const qb = this.userRepo.createQueryBuilder('users').select(['users.id', 'users.uuid','users.name', 'users.email']);
+    // if (params?.email) {
+    //   qb.where('users.email = :email', { email: params.email });
+    // }
+    // return paginate(qb, { page, limit, baseUrl: '/users' });
     // .where('user.active = :active', { active: true })
-// 
-    // return paginate(this.userRepo, { page, limit });
+    
+    // Apply pagination
     return paginate(this.userRepo, { page, limit });
+
   }
 
 }

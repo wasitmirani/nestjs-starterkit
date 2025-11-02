@@ -10,6 +10,9 @@ export class UsersController {
     @Query('page') page = 1,
     @Query('limit') limit = 10,
   ) {
+    if(limit > 100) {
+      return  ex
+    }
     return this.userService.getUsers(Number(page), Number(limit));
   }
    @Get('data')
