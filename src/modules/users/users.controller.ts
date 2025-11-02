@@ -1,17 +1,16 @@
-import { Controller, Get,Query  } from '@nestjs/common';
+import { Controller, Get,Query,Res  } from '@nestjs/common';
 import { UsersService } from './users.service';
+
+
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  async findAll(
-    @Query('page') page = 1,
-    @Query('limit') limit = 10,
-  ) {
+  async findAll(@Query('page') page = 1,@Query('limit') limit = 10, @Res() res) {
     if(limit > 100) {
-      return  ex
+      return  res.status(400).json({ error: 'Limit exceeded. Maximum limit is 100.' });
     }
     return this.userService.getUsers(Number(page), Number(limit));
   }
