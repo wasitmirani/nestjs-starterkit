@@ -12,7 +12,7 @@ export class UsersController {
     if(limit > 100) {
       return  res.status(400).json({ error: 'Limit exceeded. Maximum limit is 100.' });
     }
-    return this.userService.getUsers(Number(page), Number(limit));
+    return res.json(await this.userService.getUsers(Number(page), Number(limit)));
   }
    @Get('data')
   getStaticUsersList() {
